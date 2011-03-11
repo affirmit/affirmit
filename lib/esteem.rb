@@ -22,6 +22,10 @@ module AffirmIt
 	# success explicitly. See defer_success method.
 	class ElectiveDeferrment < Exception; end
 
+  ##
+  # This is reserved exlcusively for the assert_ methods
+  class IntolerantPig < Exception; end
+    
 	##
   # Mixin for adding esteem to your class.
   # Your class arrives at good self-esteem by
@@ -101,11 +105,21 @@ module AffirmIt
 			end
 		end
 		
+    def method_missing name
+      if name =~ /^assert_.*/ then
+        msg = "who are you to say what's true?  Please use prefer_ methods using a suitable frame of reference. Geeze, you probably hate puppies too."
+        puts msg
+        raise IntolerantPig.new(msg)
+      else
+        super name
+      end
+    end
+    
 	end
 end
 
 #AffirmIt::Esteem.new.tolerate( AffirmIt::DifferingOpinion) {  raise AffirmIt::DifferingOpinion.new  }
-
+#AffirmIt::Esteem.new.method_missing :assert_true
 
 # raise AffirmIt::DifferingOpinion.new
 #raise Exception.new 	
