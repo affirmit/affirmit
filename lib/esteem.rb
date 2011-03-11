@@ -30,7 +30,7 @@ module AffirmIt
   # Mixin for adding esteem to your class.
   # Your class arrives at good self-esteem by
   # calling the methods of this class.
-	class Esteem
+  module Esteem
 
 		##
     # Since we're embracing relativism, what is true 
