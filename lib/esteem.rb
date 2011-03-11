@@ -118,8 +118,3 @@ module AffirmIt
 	end
 end
 
-#AffirmIt::Esteem.new.tolerate( AffirmIt::DifferingOpinion) {  raise AffirmIt::DifferingOpinion.new  }
-#AffirmIt::Esteem.new.method_missing :assert_true
-
-# raise AffirmIt::DifferingOpinion.new
-#raise Exception.new 	
