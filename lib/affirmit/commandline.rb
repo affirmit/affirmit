@@ -1,5 +1,6 @@
-require 'affirmation'
-require 'facilitator'
+require 'affirmit/affirmation'
+require 'affirmit/facilitator'
+require 'affirmit/grouphug'
 
 module AffirmIt
   class CommandLine
@@ -9,10 +10,11 @@ module AffirmIt
       def run(args=ARGV)
         affirmation_classes = []
         ::ObjectSpace.each_object(Class) do |c|
-          affirmation_classes < c if c < Affirmation
+          affirmation_classes << c if c < Affirmation
         end
-        affirmations = affirmation_classes.sort.collect { |c| c.new }
-        Facilitator.new.embrace affirmations
+        GroupHug group_hug = GroupHug.new('Group hug')
+        affirmation_classes.sort.each { |c| group_hug << c.new.group_hug }
+        Facilitator.new.embrace group_hug
       end
       
     end

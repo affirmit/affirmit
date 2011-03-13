@@ -1,5 +1,5 @@
-require 'esteem'
-require 'grouphug'
+require 'affirmit/esteem'
+require 'affirmit/grouphug'
 
 module AffirmIt
   class Affirmation
@@ -54,7 +54,7 @@ module AffirmIt
     end
     
     def name
-      "#{self.class}.#{@method_name}"
+      "#{self.class.name}.#{@method_name}"
     end
     
     def embrace facilitator
@@ -89,6 +89,8 @@ module AffirmIt
             facilitator.raise_issue e
           end
         end
+        
+        facilitator.add_affirmation
       end
     end
   end

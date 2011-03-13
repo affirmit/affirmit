@@ -1,4 +1,4 @@
-require 'esteem'
+require 'affirmit/esteem'
 
 module AffirmIt
   
@@ -10,8 +10,10 @@ module AffirmIt
   # frameworks.
   class Facilitator
     
+    attr_reader :affirmation_count, :preference_count
+    
     def initialize
-      @affirmation_names = []
+      @affirmation_count = 0
       @preference_count = 0
       @elective_deferrals = []
       @differing_opinions = []
@@ -28,7 +30,7 @@ module AffirmIt
     end
     
     ##
-    # Wraps the given affirmation with its arms, to ensure
+    # Wraps the given affirmation in its arms, ensuring
     # that any interested parties are notified that the
     # facilitator's arms are being wrapped around, and
     # disentangled from, the given affirmation.
@@ -42,10 +44,21 @@ module AffirmIt
     end
     
     ##
-    # A facilitator cherishes any individual affirmation,
-    # regardless of its subjective outcome.
-    def cherish affirmation_name
-      @affirmation_names << affirmation_name
+    # Called when an affirmation is first embraced.
+    def wrap_arms_around affirmation
+    end
+    
+    ##
+    # Called when an affirmation's embrace is lovingly
+    # disengaged.
+    def disentangle_arms_from affirmation
+    end
+    
+    ##
+    # Registers that an individual affirmation has been
+    # embraced -- not a group hug.
+    def add_affirmation
+      @affirmation_count += 1
     end
     
     ##
@@ -88,35 +101,31 @@ module AffirmIt
     end
     
     ##
-    # Intolerant pigs will, of course, not be tolerated by a
-    # facilitator and will be expelled immediately.
+    # Intolerant pigs will not be tolerated by a facilitator
+    # and will be expelled immediately.
     def expel pig
       puts pig
       Kernel.exit 3
     end
     
-    def affirmation_count
-      affirmation_names.size
-    end
-    
     def preference_count
-      preferences.size
+      @preferences.size
     end
     
     def elective_deferral_count
-      elective_deferrals.size
+      @elective_deferrals.size
     end
     
     def behavioral_challenge_count
-      behavioral_challenges.size
+      @behavioral_challenges.size
     end
     
     def differing_opinion_count
-      differing_opinions.size
+      @differing_opinions.size
     end
     
     def issue_count
-      issues.size
+      @issues.size
     end
   end
 end

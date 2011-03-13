@@ -1,4 +1,4 @@
-require 'defaultframeofreference'
+require 'affirmit/defaultframeofreference'
 
 module AffirmIt
   

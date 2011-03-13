@@ -1,4 +1,4 @@
-require 'defaultframeofreference'
+require 'affirmit/defaultframeofreference'
 
 module AffirmIt
 	
@@ -101,7 +101,7 @@ module AffirmIt
 		##
 		# Use this method when you want to explicitly and immediately
 		# defer success of the affirmation.  This is analogous to the
-		# Test::Unit fail method.  Of course, that kind of attitude
+		# Test::Unit flunk method.  Of course, that kind of attitude
 		# is not tolerated here.
 		def defer_success msg = 'Success deferred'
 			raise ElectiveDeferral.new msg
