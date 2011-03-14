@@ -29,7 +29,7 @@ module AffirmIt
 	##
   # Mixin for adding esteem to your class.
   # Your class arrives at good self-esteem by
-  # calling the methods of this class.
+  # calling the methods of this module.
   module Esteem
 
 		##
@@ -53,6 +53,7 @@ module AffirmIt
 		
 		def initialize
 			@reference_frame = DefaultReferenceFrame.new
+      @bonus_points = 0
 		end
 
 		def maybe(something) 
@@ -74,22 +75,30 @@ module AffirmIt
 		end
 		
 		def praise object, msg = "great job!"
-			msg
+			puts "What a wonderful #{object}.  #{msg}"
 		end
 
 		##
 		# This method is used to indicate a preference toward exceptions in certain cases.
 		def expect_raise expected
-			exception = false
-			begin
+      begin
 				yield
 			rescue Exception => ex
-				raise BehavioralChallenge.new("expected #{expected}, got #{ex.class}") unless ex.is_a?(expected)
-				exception = true
+				raise BehavioralChallenge.new("expected #{expected}, got #{ex.class}") unless ex.is_a?(expected)        
+        return ex
+      else
+  			raise BehavioralChallenge.new("we really preferred to receive exception of type #{expected}")  
 			end
-			raise BehavioralChallenge.new("we really preferred to receive exception of type #{expected}") unless exception
 		end
 
+    def expect_no_raise 
+      begin
+        yield
+      rescue Exception => ex
+        raise BehavioralChallenge.new("we were not expecting a raise, but we got #{ex.class}")
+      end
+    end
+    
 		##
 		# Use this method when you want to explicitly and immediately defer success of the affirmation.
 		# This is analogous to the jUnit fail method.  Of course, that kind of attitude is not tolerated here.
