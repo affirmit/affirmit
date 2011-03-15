@@ -108,10 +108,6 @@ module AffirmIt
       Kernel.exit 3
     end
     
-    def preference_count
-      @preferences.size
-    end
-    
     def elective_deferral_count
       @elective_deferrals.size
     end
