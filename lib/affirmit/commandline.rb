@@ -12,7 +12,7 @@ module AffirmIt
         ::ObjectSpace.each_object(Class) do |c|
           affirmation_classes << c if c < Affirmation
         end
-        GroupHug group_hug = GroupHug.new('Group hug')
+        group_hug = GroupHug.new('Group hug')
         affirmation_classes.sort.each { |c| group_hug << c.new.group_hug }
         Facilitator.new.embrace group_hug
       end

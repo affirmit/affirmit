@@ -60,6 +60,7 @@ module AffirmIt
 		
 		def initialize
 			@frame_of_reference = DefaultFrameOfReference.new
+      @bonus_points = 0
 		end
 
 		def maybe(something) 
@@ -80,23 +81,31 @@ module AffirmIt
 			raise DifferingOpinion.new("preferred other than #{not_preferred}, got #{actual}. #{msg}") if @frame_of_reference.is_true(actual == not_preferred)
 		end
 		
-		def praise object, msg = "Great job!"
-			msg
+    def praise object, msg = "Great job!"
+      puts "What a wonderful #{object}.  #{msg}"
 		end
 
 		##
 		# This method is used to indicate a preference toward
 		# exceptions in certain cases.
 		def expect_raise expected
-			exception = false
-			begin
+      begin
 				yield
 			rescue Exception => ex
-				raise BehavioralChallenge.new("expected #{expected}, got #{ex.class}") unless ex.is_a?(expected)
-				exception = true
-			end
-			raise BehavioralChallenge.new("We really preferred to receive an exception of type #{expected}") unless exception
+				raise BehavioralChallenge.new("expected #{expected}, got #{ex.class}") unless ex.is_a?(expected)        
+        return ex
+      else
+  			raise BehavioralChallenge.new("We really preferred to receive an exception of type #{expected}") unless exception
+	  	end
 		end
+
+    def expect_no_raise 
+      begin
+        yield
+      rescue Exception => ex
+        raise BehavioralChallenge.new("We were not expecting a raise, but we got #{ex.class}")
+      end
+    end
 
 		##
 		# Use this method when you want to explicitly and immediately
