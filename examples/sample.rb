@@ -5,7 +5,7 @@ require 'affirmit'
 ##
 # author: Simpson, Homer
 #
-module PowerPlantOperationsAcceptor 
+module Springfield 
 
 class DonutAcceptor
   include AffirmIt::Esteem
@@ -38,7 +38,7 @@ class DonutAcceptor
   end
   
   def affirm_donut_permanence
-    ex = expect_raise(PowerPlantRuleViolation) do
+    ex = expect_raise(IllegalOperationException) do
       Donut.new.discard
     end
     prefer_that ex.message,  'Donuts are not discardable' 
@@ -79,7 +79,7 @@ class Donut
   end
   
   def discard
-    raise PowerPlantRuleViolation.new 'Donuts are not discardable'
+    raise IllegalOperationException.new 'Donuts are not discardable'
   end
 
   def eat
@@ -92,14 +92,14 @@ class Donut
 end
 
 
-class PowerPlantRuleViolation < Exception ; end
+class IllegalOperationException < Exception ; end
 
 end
 
 
 # until we get the runner working, just do it explicitly here...
 
-da  = PowerPlantOperationsAcceptor::DonutAcceptor.new
+da  = Springfield::DonutAcceptor.new
 da.affirm_simple_truth
 da.affirm_donut_shape
 da.affirm_donut_goodness
