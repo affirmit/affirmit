@@ -7,8 +7,7 @@ require 'affirmit'
 #
 module Springfield 
 
-class DonutAcceptor
-  include AffirmIt::Esteem
+class DonutAcceptor < AffirmIt::Affirmation
   
   def affirm_simple_truth
     prefer_true true
@@ -95,16 +94,3 @@ end
 class IllegalOperationException < Exception ; end
 
 end
-
-
-# until we get the runner working, just do it explicitly here...
-
-da  = Springfield::DonutAcceptor.new
-da.affirm_simple_truth
-da.affirm_donut_shape
-da.affirm_donut_goodness
-da.affirm_donut_permanence
-da.affirm_donuts_can_be_eaten
-da.affirm_good_donuts
-da.affirm_there_is_no_shame_in_quitting
-

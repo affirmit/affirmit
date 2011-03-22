@@ -37,5 +37,9 @@ module AffirmIt
         sum + affirmation.affirmation_count
       end
     end
+    
+    def to_s
+      "Group hug with #{affirmation_count} affirmations"
+    end
   end
 end

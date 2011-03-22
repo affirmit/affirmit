@@ -13,7 +13,7 @@ module AffirmIt
           affirmation_classes << c if c < Affirmation
         end
         group_hug = GroupHug.new('Group hug')
-        affirmation_classes.sort.each { |c| group_hug << c.new.group_hug }
+        affirmation_classes.sort.each { |c| group_hug << c.group_hug }
         Facilitator.new.embrace group_hug
       end
       
