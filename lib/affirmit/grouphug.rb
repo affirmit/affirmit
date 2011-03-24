@@ -32,6 +32,10 @@ module AffirmIt
       @affirmations << affirmation
     end
     
+    def [] index
+      @affirmations[index]
+    end
+    
     def affirmation_count
       @affirmations.inject(0) do |sum, affirmation|
         sum + affirmation.affirmation_count

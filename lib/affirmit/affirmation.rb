@@ -23,7 +23,7 @@ module AffirmIt
       # into a big group hug.
       def group_hug
         group_hug = GroupHug.new(self.class.to_s)
-        public_instance_methods(true).each do |method_name|
+        public_instance_methods(true).sort.each do |method_name|
           if method_name =~ /^affirm_/
             group_hug << new(method_name)
           end
