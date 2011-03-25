@@ -1,6 +1,7 @@
 require 'affirmit/affirmation'
 require 'affirmit/facilitator'
 require 'affirmit/grouphug'
+require 'affirmit/rosecoloredglasses'
 
 module AffirmIt
   class CommandLine

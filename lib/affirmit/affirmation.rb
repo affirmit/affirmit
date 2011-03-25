@@ -22,9 +22,9 @@ module AffirmIt
       # Collects all the individual affirmations in this class
       # into a big group hug.
       def group_hug
-        group_hug = GroupHug.new(self.class.to_s)
+        group_hug = GroupHug.new(name) # name = class name
         public_instance_methods(true).sort.each do |method_name|
-          if method_name =~ /^affirm_/
+          if method_name =~ /^affirm[^A-Za-z0-9]/
             group_hug << new(method_name)
           end
         end
