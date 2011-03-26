@@ -5,6 +5,7 @@ require 'affirmit'
 module AffirmIt
   module Tests
     
+    AffirmIt::CommandLine.do_not_start_automatically
     module AttributeAssertions
       include Test::Unit::Assertions
       

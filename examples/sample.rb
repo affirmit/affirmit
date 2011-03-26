@@ -7,20 +7,20 @@ require 'affirmit'
 #
 module Springfield 
 
-class DonutAcceptor < AffirmIt::Affirmation
+class DonutAffirmation < AffirmIt::Affirmation
   
   def affirm_simple_truth
-    prefer_true true
-    prefer_true Donut.new.is_a?(Donut)
+    prefer_that true, is(true)
+    prefer_that Donut.new.is_a? Donut
   end
   
   def affirm_donut_shape
     donut = Donut.new
-    prefer_that donut.shape, :round
+    prefer_that donut.shape, is(:round)
     
     # mmmmm, square donut....
     donut.shape = :square
-    prefer_that( donut.shape, :square)  
+    prefer_that donut.shape, is(:square)
         
   end
 
@@ -30,10 +30,9 @@ class DonutAcceptor < AffirmIt::Affirmation
     maybe donut.has_sprinkles?  # sometimes something is optional, but it's a bonus if it is true
                                 # maybe gives you bonus points
     donut.sprinkle :rainbow
-        
-    prefer_true donut.has_sprinkles?
-    prefer_that( donut.sprinkles, :rainbow)
     
+    prefer_that donut.has_sprinkles?
+    prefer_that donut.sprinkles, includes(:rainbow)
   end
   
   def affirm_donut_permanence
@@ -56,9 +55,8 @@ class DonutAcceptor < AffirmIt::Affirmation
   def affirm_good_donuts
     praise Donut.new 
   end
-  
-
 end
+
 
 class Donut
   attr_accessor :shape
@@ -66,15 +64,15 @@ class Donut
   
   def initialize
     @shape = :round
-    @sprinkles = :chocolate
+    @sprinkles = [:chocolate]
   end
   
   def has_sprinkles?
-    @sprinkles != nil
+    @sprinkles.size > 0
   end
   
   def sprinkle kind
-    @sprinkles = kind
+    @sprinkles << kind
   end
   
   def discard

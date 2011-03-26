@@ -1,4 +1,5 @@
 require 'affirmit/defaultframeofreference'
+require 'affirmit/preferences'
 
 module AffirmIt
 	
@@ -34,6 +35,9 @@ module AffirmIt
 	# Your class achieves good self-esteem by
 	# calling the methods of this class.
 	module Esteem
+    include Preferences
+    
+    DEFAULT_PREFERENCE = AffirmIt::Preference::Is.new true
 
 		##
 		# Since we're embracing relativism, what is true
@@ -44,19 +48,6 @@ module AffirmIt
 		# self-esteem -- you might consider changing
 		# your frame of reference.
 		attr_accessor :frame_of_reference
-
-		##
-		# If we have learned anything from
-		# lawyer-politicians, it is that everything
-		# depends on your definition of "is"....
-		#
-		# In this case, the "is" method helps with
-		# legibility of affirmations.  Feel free to
-		# re-implement with your preferred discourse on
-		# being.  We're certain you'll do a great job!
-		def is(something)
-			something
-		end
 		
 		def initialize
 			@frame_of_reference = DefaultFrameOfReference.new
@@ -69,18 +60,27 @@ module AffirmIt
 			end
 		end
 
-		def prefer_true opinion, msg = ''
-			prefer_that opinion, is(true) 
+    ##
+    # Prefers that a certain value agrees with your
+    # preference, thus:
+    #
+    # prefer_that (2 + 2), is(5)
+    # prefer_that [:lisp], ((includes :infix_operators) & ~(includes :parentheses)) | (is [:ruby])
+		def prefer_that actual, preference = DEFAULT_PREFERENCE, msg = ''
+      add_preference
+      unless @frame_of_reference.is_true(preference.is_preferred? actual)
+        raise DifferingOpinion, "Preferred #{preference.description}, got <#{actual}>. #{msg}"
+      end
 		end
-
-		def prefer_that actual, preferred, msg = ''
-			raise DifferingOpinion.new("preferred #{preferred}, got #{actual}. #{msg}") unless @frame_of_reference.is_true(actual == preferred)
-		end
-
-		def prefer_diversity actual, not_preferred, msg = ''
-			raise DifferingOpinion.new("preferred other than #{not_preferred}, got #{actual}. #{msg}") if @frame_of_reference.is_true(actual == not_preferred)
-		end
+    
+    ##
+    # Classes that wish to note the existence of preferences
+    # may override this method accordingly.
+    def add_preference
+    end
 		
+    ##
+    # Every object needs a little encouragement sometimes.
     def praise object, msg = "Great job!"
       puts "What a wonderful #{object}.  #{msg}"
 		end

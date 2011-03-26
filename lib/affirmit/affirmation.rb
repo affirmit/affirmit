@@ -57,7 +57,12 @@ module AffirmIt
       "#{self.class.name}.#{@method_name}"
     end
     
+    def add_preference
+      @facilitator.add_preference
+    end
+    
     def embrace facilitator
+      @facilitator = facilitator
       facilitator.with_arms_around self do
         begin
           build_up
@@ -89,9 +94,10 @@ module AffirmIt
             facilitator.raise_issue e
           end
         end
-        
-        facilitator.add_affirmation
       end
+      
+      facilitator.add_affirmation
+      @facilitator = nil
     end
   end
 end

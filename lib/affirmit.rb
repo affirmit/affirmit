@@ -6,7 +6,7 @@ module AffirmIt
 end
 
 at_exit do
-  if $!.nil?
+  if $!.nil? and not AffirmIt::CommandLine.started?
     AffirmIt::CommandLine.run
   end
 end
