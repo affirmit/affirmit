@@ -11,35 +11,44 @@ class DonutAffirmation < AffirmIt::Affirmation
   
   def affirm_simple_truth
     prefer_that true, is(true)
-    prefer_that Donut.new.is_a? Donut
+    donut = Donut.new
+    prefer_that donut, isnt(nil)
+    prefer_that donut.is_a? Donut
+    
+    # If you want a better message if the Donut preference is not met,
+    # try the following:
+    prefer_that donut, (is a Donut)
   end
   
   def affirm_donut_shape
     donut = Donut.new
     prefer_that donut.shape, is(:round)
     
-    # mmmmm, square donut....
+    # Mmmmm, square donut....
     donut.shape = :square
     prefer_that donut.shape, is(:square)
-        
   end
 
   def affirm_donut_goodness
     donut = Donut.new
-
-    maybe donut.has_sprinkles?  # sometimes something is optional, but it's a bonus if it is true
-                                # maybe gives you bonus points
+    
+    # Sometimes something is optional, but it's a bonus if it is true.
+    # maybe gives you bonus points!
+    maybe donut.has_sprinkles?
+    
+    donut.sprinkle :chocolate
     donut.sprinkle :rainbow
     
     prefer_that donut.has_sprinkles?
-    prefer_that donut.sprinkles, includes(:rainbow)
+    prefer_that donut.sprinkles, includes(:rainbow) & includes(:chocolate)
+    prefer_that donut.to_s, equals('round donut with chocolate and rainbow sprinkles')
   end
   
   def affirm_donut_permanence
     ex = expect_raise(IllegalOperationException) do
       Donut.new.discard
     end
-    prefer_that ex.message,  'Donuts are not discardable' 
+    prefer_that ex.message, is('Donuts are not discardable')
   end
   
   def affirm_donuts_can_be_eaten
@@ -72,7 +81,7 @@ class Donut
   end
   
   def sprinkle kind
-    @sprinkles << kind
+    @sprinkles << kind unless @sprinkles.include? kind
   end
   
   def discard
@@ -80,11 +89,11 @@ class Donut
   end
 
   def eat
-    puts "Just ate a #{shape} donut with #{sprinkles} sprinkles.  mmmmmm." 
+    puts "Just ate a #{to_s}.  Mmmmmm."
   end
 
   def to_s
-    "#{shape} donut with #{sprinkles} sprinkles"
+    "#{@shape} donut with #{@sprinkles.join ' and '} sprinkles"
   end
 end
 

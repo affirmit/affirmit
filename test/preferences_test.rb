@@ -36,6 +36,18 @@ module AffirmIt
           "same as <:java> or same as <:c_sharp>"
       end
       
+      def test_a
+        assert_pref "foo", (a String), "object that is a <String>"
+      end
+      
+      def test_a_with_a_superclass
+        assert_pref "foo", (a Object), "object that is an <Object>"
+      end
+      
+      def test_a_not_preferred
+        assert_not_pref "foo", (a Fixnum), "object that is a <Fixnum>"
+      end
+      
       def test_between_equal_to_lhs
         assert_pref 2, between(2, 3), "between <2> and <3>"
       end
@@ -50,6 +62,14 @@ module AffirmIt
       
       def test_between_not_preferred
         assert_not_pref 2, between(5, 6), "between <5> and <6>"
+      end
+      
+      def test_equals
+        assert_pref 2, (equals 2), "<2>"
+      end
+      
+      def test_equals_not_preferred
+        assert_not_pref (2 + 2), (equals 5), "<5>"
       end
       
       def test_greater_than
@@ -76,12 +96,44 @@ module AffirmIt
         assert_not_pref (2 + 2), (is 5), "<5>"
       end
       
+      def test_is_with_nil
+        assert_pref nil, (is nil), "<nil>"
+      end
+      
       def test_is_with_preference
         assert_pref 3, (is between(2, 4)), "between <2> and <4>"
       end
       
       def test_is_with_preference_not_preferred
         assert_not_pref 3, (is greater_than 5), "greater than <5>"
+      end
+      
+      def test_is_a
+        assert_pref "AffirmIt", (is a String), "object that is a <String>"
+      end
+      
+      def test_is_an
+        assert_pref "AffirmIt", (is an Object), "object that is an <Object>"
+      end
+      
+      def test_isnt_with_value
+        assert_pref 3, (isnt 2), "not <2>"
+      end
+      
+      def test_isnt_with_value_not_preferred
+        assert_not_pref (2 + 2), (isnt 4), "not <4>"
+      end
+      
+      def test_isnt_with_nil
+        assert_pref 3, (isnt nil), "not <nil>"
+      end
+      
+      def test_isnt_with_preference
+        assert_pref 5, (isnt between(2, 4)), "not between <2> and <4>"
+      end
+      
+      def test_isnt_with_preference_not_preferred
+        assert_not_pref 5, (isnt greater_than 3), "not greater than <3>"
       end
       
       def test_less_than
