@@ -51,12 +51,11 @@ module AffirmIt
 		
 		def initialize
 			@frame_of_reference = DefaultFrameOfReference.new
-      @bonus_points = 0
 		end
 
 		def maybe(something) 
 			if @frame_of_reference.is_true(something) then
-				@bonus_points += 1
+				add_bonus_point
 			end
 		end
 
@@ -80,9 +79,16 @@ module AffirmIt
     end
 		
     ##
+    # Classes that wish to track bonus points may override
+    # this method accordingly.
+    def add_bonus_point
+    end
+		
+    ##
     # Every object needs a little encouragement sometimes.
+    # Subclasses should make sure that this praise is passed
+    # on to the facilitator.
     def praise object, msg = "Great job!"
-      puts "What a wonderful #{object}.  #{msg}"
 		end
 
 		##
@@ -92,7 +98,7 @@ module AffirmIt
       begin
 				yield
 			rescue Exception => ex
-				raise BehavioralChallenge.new("expected #{expected}, got #{ex.class}") unless ex.is_a?(expected)        
+				raise BehavioralChallenge.new("expected #{expected}, got #{ex.class}") unless ex.is_a?(expected)
         return ex
       else
   			raise BehavioralChallenge.new("We really preferred to receive an exception of type #{expected}") unless exception
@@ -123,7 +129,6 @@ module AffirmIt
 			# redirect them to the preferred path.
 			if name =~ /^assert_.*/ then
 				msg = "Who are you to say what's true?  Please use prefer_ methods using a suitable frame of reference.  Geeze, you probably hate puppies too."
-				puts msg
 				raise IntolerantPig.new(msg)
 			else
 				super name

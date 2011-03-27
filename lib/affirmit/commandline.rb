@@ -2,6 +2,7 @@ require 'affirmit/affirmation'
 require 'affirmit/facilitator'
 require 'affirmit/grouphug'
 require 'affirmit/rosecoloredglasses'
+require 'affirmit/ui/consoleui'
 
 module AffirmIt
   class CommandLine
@@ -23,7 +24,9 @@ module AffirmIt
         end
         group_hug = GroupHug.new('Group hug')
         affirmation_classes.sort.each { |c| group_hug << c.group_hug }
-        Facilitator.new.embrace group_hug
+        
+        ui = AffirmIt::UI::ConsoleUI.new
+        Facilitator.new(ui).embrace group_hug
       end
       
     end

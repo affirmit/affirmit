@@ -19,6 +19,7 @@ module AffirmIt
     
     class FacilitatorTest < Test::Unit::TestCase
       include AttributeAssertions
+      include FacilitatorListener
       
       class NonThreateningIssue < Exception
       end
@@ -78,8 +79,22 @@ module AffirmIt
       end
       
       
+      class PotentiallyCherishedAffirmation < AffirmIt::Affirmation
+        def initialize affirmed, bonus_points
+          super('affirm_it')
+          @affirmed = affirmed
+          @bonus_points = bonus_points
+        end
+        
+        def affirm_it
+          maybe true if @bonus_points
+          prefer_that @affirmed, is(true)
+        end
+      end
+      
+      
       def after_embracing affirmation
-        facilitator = Facilitator.new
+        facilitator = Facilitator.new self
         facilitator.embrace affirmation
         yield facilitator
       end
@@ -189,6 +204,58 @@ module AffirmIt
         after_embracing affirmation do |facilitator|
           assert_attributes facilitator, {:issue_count => 1}
           assert_attributes affirmation, {}
+        end
+      end
+      
+      def test_stars_no_affirmations_makes_5
+        group_hug = GroupHug.new 'Group hug'
+        after_embracing group_hug do |facilitator|
+          assert_equal 5.0, facilitator.stars
+        end
+      end
+      
+      def test_stars_no_affirmations_cherished_makes_3
+        group_hug = GroupHug.new 'Group hug'
+        group_hug << PotentiallyCherishedAffirmation.new(false, false)
+        group_hug << PotentiallyCherishedAffirmation.new(false, false)
+        after_embracing group_hug do |facilitator|
+          assert_equal 3.0, facilitator.stars
+        end
+      end
+      
+      def test_stars_half_of_affirmations_cherished_makes_4
+        group_hug = GroupHug.new 'Group hug'
+        group_hug << PotentiallyCherishedAffirmation.new(true, false)
+        group_hug << PotentiallyCherishedAffirmation.new(false, false)
+        after_embracing group_hug do |facilitator|
+          assert_equal 4.0, facilitator.stars
+        end
+      end
+      
+      def test_stars_all_affirmations_cherished_makes_5
+        group_hug = GroupHug.new 'Group hug'
+        group_hug << PotentiallyCherishedAffirmation.new(true, false)
+        group_hug << PotentiallyCherishedAffirmation.new(true, false)
+        after_embracing group_hug do |facilitator|
+          assert_equal 5.0, facilitator.stars
+        end
+      end
+      
+      def test_stars_none_cherished_with_one_bonus_point_increases_stars
+        group_hug = GroupHug.new 'Group hug'
+        group_hug << PotentiallyCherishedAffirmation.new(false, false)
+        group_hug << PotentiallyCherishedAffirmation.new(false, true)
+        after_embracing group_hug do |facilitator|
+          assert_equal 4.0, facilitator.stars
+        end
+      end
+      
+      def test_stars_all_cherished_with_one_bonus_point_stays_at_5
+        group_hug = GroupHug.new 'Group hug'
+        group_hug << PotentiallyCherishedAffirmation.new(true, true)
+        group_hug << PotentiallyCherishedAffirmation.new(true, false)
+        after_embracing group_hug do |facilitator|
+          assert_equal 5.0, facilitator.stars
         end
       end
     end

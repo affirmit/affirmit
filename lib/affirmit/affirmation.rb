@@ -13,6 +13,12 @@ module AffirmIt
     attr_reader :method_name
     
     def initialize(method_name)
+      # Ruby syntax note: If we don't put the parentheses here,
+      # it calls the super's initialize method with all the
+      # parameters supplied to this method.  However,
+      # Esteem.initialize takes no parameters, so I have to
+      # explicitly pass it no parameters.
+      super()
       @method_name = method_name
     end
     
@@ -61,12 +67,22 @@ module AffirmIt
       @facilitator.add_preference
     end
     
+    def add_bonus_point
+      @facilitator.add_bonus_point
+    end
+    
+    def praise object, msg = ''
+      @facilitator.praise "What a wonderful #{object}!  #{msg}"
+    end
+    
     def embrace facilitator
       @facilitator = facilitator
+      success = false
       facilitator.with_arms_around self do
         begin
           build_up
           __send__ @method_name
+          success = true
         rescue DifferingOpinion => opinion
           facilitator.espouse_differing_opinion opinion
         rescue ElectiveDeferral => deferral
@@ -81,6 +97,7 @@ module AffirmIt
         ensure
           begin
             recycle
+            facilitator.cherish_affirmation if success
           rescue DifferingOpinion => opinion
             facilitator.espouse_differing_opinion opinion
           rescue ElectiveDeferral => deferral

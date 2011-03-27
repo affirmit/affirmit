@@ -9,51 +9,60 @@ module Springfield
 
 class DonutAffirmation < AffirmIt::Affirmation
   
+  ##
+  # Called before every affirmation.
+  def build_up
+    @donut = Donut.new
+  end
+  
+  ##
+  # Clean up our environment after every affirmation.
+  def recycle
+    @donut = nil
+  end
+  
   def affirm_simple_truth
     prefer_that true, is(true)
-    donut = Donut.new
-    prefer_that donut, isnt(nil)
-    prefer_that donut.is_a? Donut
+    prefer_that @donut, isnt(nil)
+    prefer_that @donut.is_a? Donut
     
     # If you want a better message if the Donut preference is not met,
     # try the following:
-    prefer_that donut, (is a Donut)
+    prefer_that @donut, (is a Donut)
   end
   
   def affirm_donut_shape
-    donut = Donut.new
-    prefer_that donut.shape, is(:round)
+    prefer_that @donut.shape, is(:round)
     
     # Mmmmm, square donut....
-    donut.shape = :square
-    prefer_that donut.shape, is(:square)
+    @donut.shape = :square
+    prefer_that @donut.shape, is(:square)
   end
 
   def affirm_donut_goodness
-    donut = Donut.new
     
     # Sometimes something is optional, but it's a bonus if it is true.
     # maybe gives you bonus points!
-    maybe donut.has_sprinkles?
+    maybe @donut.has_sprinkles?
     
-    donut.sprinkle :chocolate
-    donut.sprinkle :rainbow
+    @donut.sprinkle :chocolate
+    @donut.sprinkle :rainbow
     
-    prefer_that donut.has_sprinkles?
-    prefer_that donut.sprinkles, includes(:rainbow) & includes(:chocolate)
-    prefer_that donut.to_s, equals('round donut with chocolate and rainbow sprinkles')
+    prefer_that @donut.has_sprinkles?
+    prefer_that @donut.sprinkles, includes(:rainbow) & includes(:chocolate)
+    prefer_that @donut.to_s, equals('round donut with chocolate and rainbow sprinkles')
   end
   
   def affirm_donut_permanence
     ex = expect_raise(IllegalOperationException) do
-      Donut.new.discard
+      @donut.discard
     end
     prefer_that ex.message, is('Donuts are not discardable')
   end
   
   def affirm_donuts_can_be_eaten
     expect_no_raise do
-      Donut.new.eat
+      @donut.eat
     end
   end
   
@@ -62,7 +71,7 @@ class DonutAffirmation < AffirmIt::Affirmation
   end
 
   def affirm_good_donuts
-    praise Donut.new 
+    praise @donut
   end
 end
 
@@ -89,7 +98,7 @@ class Donut
   end
 
   def eat
-    puts "Just ate a #{to_s}.  Mmmmmm."
+    "Just ate a #{to_s}.  Mmmmmm."
   end
 
   def to_s
