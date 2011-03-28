@@ -8,7 +8,7 @@ module AffirmIt
         {
           :affirmation_count => 1,
           :preference_count => 0,
-          :elective_deferral_count => 0,
+          :deferred_success_count => 0,
           :behavioral_challenge_count => 0,
           :differing_opinion_count => 0,
           :issue_count => 0
@@ -121,7 +121,7 @@ module AffirmIt
         affirmation = BuildUpChallengedAffirmation.new ElectiveDeferral,
           'Deferred success'
         after_embracing affirmation do |facilitator|
-          assert_attributes facilitator, {:elective_deferral_count => 1}
+          assert_attributes facilitator, {:deferred_success_count => 1}
           assert_attributes affirmation, {:affirmed => false}
         end
       end
@@ -157,7 +157,7 @@ module AffirmIt
         affirmation = TroubledAffirmation.new ElectiveDeferral,
           'Deferred success'
         after_embracing affirmation do |facilitator|
-          assert_attributes facilitator, {:elective_deferral_count => 1}
+          assert_attributes facilitator, {:deferred_success_count => 1}
           assert_attributes affirmation, {}
         end
       end
@@ -193,7 +193,7 @@ module AffirmIt
         affirmation = EnvironmentallyIrresponsibleAffirmation.new ElectiveDeferral,
           'Deferred success'
         after_embracing affirmation do |facilitator|
-          assert_attributes facilitator, {:elective_deferral_count => 1}
+          assert_attributes facilitator, {:deferred_success_count => 1}
           assert_attributes affirmation, {}
         end
       end

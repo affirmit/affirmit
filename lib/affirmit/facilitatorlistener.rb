@@ -1,6 +1,6 @@
 module AffirmIt
   module FacilitatorListener
-    def notify event, facilitator, *args
+    def notify facilitator, event
     end
   end
 end
