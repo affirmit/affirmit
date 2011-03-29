@@ -15,4 +15,3 @@ Gem::Specification.new do |gem|
   
   gem.require_path = "lib"
 end
- 

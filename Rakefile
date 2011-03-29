@@ -1,6 +1,13 @@
 require "rake"
+require 'rubygems'
+require 'rake/gempackagetask'
 
-gemspec = eval(File.read(Dir["*.gemspec"].first))
+gemspecfile = File.read(Dir["*.gemspec"].first)
+gemspec = eval(gemspecfile)
+
+task :default => [:all]
+
+task :all => ["gemspec","syntax","tests","build"]
 
 desc "Validate the gemspec"
 task :gemspec do
@@ -32,12 +39,10 @@ task :syntax do
   end
 end
 
-namespace :test do
-  desc "Run all tests"
-  task :all do
+desc "Run all tests"
+task :tests do
     Dir["test/**/*_test.rb"].each do |test_path|
       system "ruby #{test_path}"
     end
-  end
 end
 
