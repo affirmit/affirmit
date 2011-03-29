@@ -42,7 +42,6 @@ end
 desc "Run all tests"
 task :tests do
     Dir["test/**/*_test.rb"].each do |test_path|
-      system "ruby #{test_path}"
+      system "ruby -I test #{test_path}"
     end
 end
-
