@@ -41,7 +41,7 @@ class UnicornAffirmation < AffirmIt::Affirmation
   def affirm_prance_too_much_can_be_fatal
     3.times { @unicorn.prance :fields }
     prefer_that @unicorn.life_force, greater_than(0)
-    expect_raise Dead do
+    prefer_raise Dead do
       @unicorn.prance :killing_fields
     end
     maybe @unicorn.is_dead?

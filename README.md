@@ -1,5 +1,7 @@
-Affirmit 
+AffirmIt 
 ========
+
+AffirmIt is the supportive testing framework for Ruby.  For more information, please see [our web site](http://affirmit.org/).
 
 Quotes from Dr. Sue Donim
 ---------

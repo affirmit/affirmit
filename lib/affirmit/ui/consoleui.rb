@@ -26,7 +26,7 @@ module AffirmIt
           @output.print 'D'
         when :differing_opinion_encountered
           @output.print 'O'
-        when :behavioral_challenge_encountered
+        when :behavioral_challenge_admitted
           @output.print 'B'
         when :issue_raised
           @output.print 'I'

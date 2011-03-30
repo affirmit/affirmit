@@ -54,14 +54,14 @@ class DonutAffirmation < AffirmIt::Affirmation
   end
   
   def affirm_donut_permanence
-    ex = expect_raise(IllegalOperationException) do
+    ex = prefer_raise(IllegalOperationException) do
       @donut.discard
     end
     prefer_that ex.message, is('Donuts are not discardable')
   end
   
   def affirm_donuts_can_be_eaten
-    expect_no_raise do
+    prefer_no_raise do
       @donut.eat
     end
   end

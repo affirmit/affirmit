@@ -9,6 +9,7 @@ require 'affirmit/preference/matches'
 require 'affirmit/preference/not'
 require 'affirmit/preference/or'
 require 'affirmit/preference/preference'
+require 'affirmit/preference/respondsto'
 require 'affirmit/preference/sameas'
 
 module AffirmIt
@@ -74,6 +75,10 @@ module AffirmIt
     
     def matches(preferred_regexp)
       AffirmIt::Preference::Matches.new preferred_regexp
+    end
+    
+    def responds_to(preferred_message)
+      AffirmIt::Preference::RespondsTo.new preferred_message
     end
     
     def same_as(preferred)
