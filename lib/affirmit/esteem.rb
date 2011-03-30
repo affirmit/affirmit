@@ -94,7 +94,8 @@ module AffirmIt
 		##
 		# This method is used to indicate a preference toward
 		# exceptions in certain cases.
-		def expect_raise expected
+		def prefer_raise expected
+      add_preference
       begin
 				yield
 			rescue Exception => ex
@@ -105,7 +106,8 @@ module AffirmIt
 	  	end
 		end
 
-    def expect_no_raise 
+    def prefer_no_raise
+      add_preference
       begin
         yield
       rescue Exception => ex
@@ -122,7 +124,7 @@ module AffirmIt
 			raise ElectiveDeferral.new msg
 		end
 
-		def method_missing name
+  	def method_missing name, *args, &block
 			# Some programmers will fall back to their old habits of
 			# "asserting" whether something is "true" or "false".
 			# We must stand firm against this sort of thinking and
@@ -131,7 +133,7 @@ module AffirmIt
 				msg = "Who are you to say what's true?  Please use prefer_ methods using a suitable frame of reference.  Geeze, you probably hate puppies too."
 				raise IntolerantPig.new(msg)
 			else
-				super name
+				super name, *args, &block
 			end
 		end
 

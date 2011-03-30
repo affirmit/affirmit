@@ -152,6 +152,14 @@ module AffirmIt
         assert_not_pref "AffirmIt", (matches /testunit/), "a match for </testunit/>"
       end
       
+      def test_responds_to
+        assert_pref "AffirmIt", (responds_to :start_with?), "an object that responds to <:start_with?>"
+      end
+      
+      def test_responds_to_not_preferred
+        assert_not_pref "AffirmIt", (responds_to :negativity), "an object that responds to <:negativity>"
+      end
+      
       def test_same_as
         obj = Object.new
         assert_pref obj, (same_as obj), "same as <#{obj}>"
