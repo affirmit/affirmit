@@ -4,7 +4,7 @@ Gem::Specification.new do |gem|
   gem.platform          = Gem::Platform::RUBY
   gem.authors           = ["Eric Galluzzo","Eric Kenny"]
   gem.email             = ["affirmit@affirmit.org"]
-  gem.homepage          = "http://github.com/affirmit/affirmit"
+  gem.homepage          = "http://affirmit.org"
   gem.summary           = "AffirmIt! is the supportive testing framework for Ruby."
   gem.description       = "AffirmIt! is the supportive testing framework for Ruby.."
   gem.rubyforge_project = gem.name
